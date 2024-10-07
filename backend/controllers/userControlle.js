@@ -3,33 +3,50 @@ const bcrypt = require('bcryptjs');
 
 // Create User
 exports.createUser = async (req, res) => {
-    const { cedula, email, name, lastName, birthDate, phoneNumber, password, gender } = req.body;
-  
-    try {
-      const existingUser = await User.findOne({ $or: [{ cedula }, { email }] });
-      if (existingUser) {
-        return res.status(400).json({ message: "Cedula or email already in use" });
-      }
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      const newUser = new User({
-        cedula,
-        email,
-        name,
-        lastName,
-        birthDate,
-        phoneNumber,
-        password: hashedPassword,
-        gender
-      });
-  
-      await newUser.save();
-      res.status(201).json(newUser);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+  const { cedula, email, name, lastName, birthDate, phoneNumber, password, gender } = req.body;
+
+  try {
+    // Check if cedula or email already exists
+    const existingUser = await User.findOne({ $or: [{ cedula }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ message: "Cedula or email already in use" });
     }
-  };
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({
+      cedula,
+      email,
+      name,
+      lastName,
+      birthDate,
+      phoneNumber,
+      password: hashedPassword,
+      gender,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    // Return the created user (you might omit the password field in the response)
+    return res.status(201).json({
+      id: newUser._id,
+      cedula: newUser.cedula,
+      email: newUser.email,
+      name: newUser.name,
+      lastName: newUser.lastName,
+      birthDate: newUser.birthDate,
+      phoneNumber: newUser.phoneNumber,
+      gender: newUser.gender
+    });
+  } catch (err) {
+    // Log the error for debugging purposes and send a 500 error response
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 // Read User by cedula
 exports.findUserByCedula = async (req, res) => {

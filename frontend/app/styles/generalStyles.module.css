@@ -1,14 +1,16 @@
-.container{
-    background-color: light-dark(#E2E2B6,#0B192C);
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    column-gap: 10px;
-    max-width: 720px;
-    align-items: center;
-    border-radius: 15px;
-    padding:3%;
-    align-items: center;
+.container {
+  background-color: light-dark(#E2E2B6, #0B192C);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  column-gap: 10px;
+  max-width: 720px;
+  align-items: center;
+  border-radius: 15px;
+  padding: 3%;
+  width: 100%;
+  height: auto; 
+  overflow-x: hidden;/* Automatically adjusts height based on content */
 }
 .background{
     background-color: light-dark(#03346E,#1E3E62);
@@ -24,6 +26,7 @@
     font-style: bold;
     padding:5%;
     align-items: center;
+    text-align: center
 }
 
 .customButton {
@@ -122,10 +125,16 @@
     width: 100%;
     margin: 0 auto; /* Center the form */
     align-items: center;
+    padding-bottom: 10%;
   }
   
   .formGroup {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem; /* Adds spacing between form fields */
+  }
+
+  .formGroup input[type="date"] {
+    margin: 0 auto; /* Center the date picker input */
+    text-align: left; /* Ensure text inside the date input is centered */
   }

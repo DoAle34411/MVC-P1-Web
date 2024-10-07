@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "validator-ec": "^1.2.0"
+  }
+}
